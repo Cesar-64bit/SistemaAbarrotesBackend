@@ -30,4 +30,15 @@ public class InventarioController {
         return inventario.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(()->
                 new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+    @PostMapping
+    public ResponseEntity<Inventario> saveInventario(@RequestBody Inventario inventario) {
+        try {
+            Inventario savedInventario = inventarioServiceImpl.saveInventario(inventario);
+
+            return new ResponseEntity<>(savedInventario, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }

@@ -31,4 +31,16 @@ public class ProductoController {
         return producto.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(()->
                 new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+    @PostMapping
+    public ResponseEntity<Producto> saveProducto(@RequestBody Producto producto) {
+        try {
+            Producto savedProducto = productoServiceImpl.saveProducto(producto);
+
+            return new ResponseEntity<>(savedProducto, HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }
