@@ -30,4 +30,39 @@ public class CategoriaController {
         return categoria.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(()->
                 new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+    @PostMapping
+    public ResponseEntity<Categoria> saveCategoria(@RequestBody Categoria categoria) {
+        try {
+            Categoria savedCategoria = categoriaServiceImpl.saveCategoria(categoria);
+
+            return new ResponseEntity<>(savedCategoria, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping
+    public ResponseEntity<Categoria> updateCategoria(@RequestBody Categoria categoria) {
+        try {
+            Categoria savedCategoria = categoriaServiceImpl.updateCategoria(categoria);
+
+            return new ResponseEntity<>(savedCategoria, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
+        Optional<Categoria> categoria = categoriaServiceImpl.getCategoriaById(id);
+
+        if(categoria.isPresent()) {
+            categoriaServiceImpl.deleteCategoria(categoria.get().getIdCategoria());
+
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }

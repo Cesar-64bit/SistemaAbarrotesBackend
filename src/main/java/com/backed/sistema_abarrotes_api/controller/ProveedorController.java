@@ -30,5 +30,15 @@ public class ProveedorController {
         return proveedor.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(()->
                 new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+    @PostMapping
+    public ResponseEntity<Proveedor> saveProveedor(@RequestBody Proveedor proveedor) {
+        try {
+            Proveedor savedProveedor = proveedorServiceImpl.saveProveedor(proveedor);
+
+            return new ResponseEntity<>(savedProveedor, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 
 }
